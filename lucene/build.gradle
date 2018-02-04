@@ -1,6 +1,9 @@
-version '1.0-SNAPSHOT'
+plugins {
+    id 'com.github.johnrengelman.shadow' version '2.0.2'
+    id 'java'
+}
 
-apply plugin: 'java'
+version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 

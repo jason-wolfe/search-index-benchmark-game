@@ -1,0 +1,9 @@
+[package]
+name = "benchmark"
+version = "0.1.0"
+authors = ["Jason Wolfe <jwolfe@indeed.com>"]
+
+[dependencies]
+bzip2 = "0.3"
+quick-xml = "0.11.0"
+stopwatch = "0.0.7"

@@ -1,5 +1,7 @@
 *.iml
 .idea
 out
+benchmark/target
 tantivy/target
 lucene/.gradle
+lucene/build

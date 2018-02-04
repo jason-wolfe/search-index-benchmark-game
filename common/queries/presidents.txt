@@ -1,0 +1,4 @@
+"donald trump"
+"barack obama"
+"george bush"
+"bill clinton"
