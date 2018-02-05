@@ -1,19 +1,21 @@
 extern crate tantivy;
 
-use std::io::BufRead;
-use std::io::Result;
-
 use tantivy::Index;
 use tantivy::query::QueryParser;
 use tantivy::collector::CountCollector;
+
+use std::env;
+use std::io::BufRead;
+use std::io::Result;
 use std::path::Path;
 
 fn main() {
-    main_inner().unwrap()
+    let args: Vec<String> = env::args().collect();
+    main_inner(&Path::new(&args[1])).unwrap()
 }
 
-fn main_inner() -> Result<()> {
-    let index = Index::open(Path::new("/tmp/wiki_index")).expect("failed to open index");
+fn main_inner(index_dir: &Path) -> Result<()> {
+    let index = Index::open(index_dir).expect("failed to open index");
     let all_field = index.schema().get_field("all").expect("no all field?!");
     let query_parser = QueryParser::new(index.schema(), vec![all_field]);
 

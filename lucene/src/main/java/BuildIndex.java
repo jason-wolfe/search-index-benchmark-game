@@ -8,27 +8,33 @@ import org.apache.lucene.store.FSDirectory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class BuildIndex {
     public static void main(String[] args) throws IOException {
-        IndexWriterConfig config = new IndexWriterConfig();
-        try (IndexWriter writer = new IndexWriter(FSDirectory.open(Paths.get("/tmp/wiki_index_lucene")), config)) {
-            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
+        final Path outputPath = Paths.get(args[0]);
 
+        final IndexWriterConfig config = new IndexWriterConfig();
+        try (IndexWriter writer = new IndexWriter(FSDirectory.open(outputPath), config)) {
+            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
                 final Document document = new Document();
 
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
-                    JsonObject parsed_doc = Json.parse(line).asObject();
-                    String url = parsed_doc.get("url").asString();
+                    if (line.trim().isEmpty()) {
+                        continue;
+                    }
 
-                    String urlPrefix = "https://en.wikipedia.org/wiki?curid=";
+                    final JsonObject parsed_doc = Json.parse(line).asObject();
+                    final String url = parsed_doc.get("url").asString();
+
+                    final String urlPrefix = "https://en.wikipedia.org/wiki?curid=";
                     if (url.startsWith(urlPrefix)) {
                         try {
-                            long doc_id = Long.parseLong(url.substring(urlPrefix.length()));
-                            String title = parsed_doc.get("title").asString();
-                            String body = parsed_doc.get("body").asString();
+                            final long doc_id = Long.parseLong(url.substring(urlPrefix.length()));
+                            final String title = parsed_doc.get("title").asString();
+                            final String body = parsed_doc.get("body").asString();
 
                             document.clear();
 
@@ -37,7 +43,7 @@ public class BuildIndex {
                             document.add(new TextField("title", title, Field.Store.YES));
                             document.add(new TextField("all", title + "\n" + body, Field.Store.NO));
 
-                            long id = writer.addDocument(document);
+                            writer.addDocument(document);
                         } catch (NumberFormatException e) {
                             continue;
                         }

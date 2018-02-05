@@ -1,6 +1,6 @@
 *.iml
 .idea
-out
+outputs
 benchmark/target
 tantivy/target
 lucene/.gradle

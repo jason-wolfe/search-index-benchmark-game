@@ -10,13 +10,14 @@ import org.apache.lucene.store.FSDirectory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class DoQuery {
     public static void main(String[] args) throws IOException, ParseException {
-        System.err.println("starting");
-        try (IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("/tmp/wiki_index_lucene")))) {
-            IndexSearcher searcher = new IndexSearcher(reader);
+        final Path indexDir = Paths.get(args[0]);
+        try (IndexReader reader = DirectoryReader.open(FSDirectory.open(indexDir))) {
+            final IndexSearcher searcher = new IndexSearcher(reader);
             try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
                 final QueryParser queryParser = new QueryParser("all", new StandardAnalyzer());
 
