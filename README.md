@@ -42,7 +42,7 @@ This will:
 1. build the benchmark driving code
 2. For each engine being tested:
     1. Build the code necessary to use it
-    2. Build an index using the supplied documents, and output timing in milliseconds to `output/$engine/build_time.txt`.
+    2. Build an index using the supplied documents, and output timing in seconds to `output/$engine/build_time.txt`.
     3. Run all of the supplied queries a number of times, recording the time taken to run in `output/$engine/query_output.txt`.
 
 The output goes into the `output` subdirectory. 
