@@ -1,4 +1,4 @@
-# Search Engine Benchmark Game
+# Search Index Benchmark Game
 
 A set of standardized benchmarks for comparing the speed of various aspects of search engine technologies. 
 
