@@ -1,6 +1,9 @@
 # Search Index Benchmark Game
 
-A set of standardized benchmarks for comparing the speed of various aspects of search engine technologies. 
+A set of standardized benchmarks for comparing the speed of various aspects of search engine technologies.
+
+This is useful both for comparing different libraries and as tooling for more easily and comprehensively
+ comparing versions of the same technology. 
 
 ## Getting Started
 
@@ -35,5 +38,20 @@ Running with the examples can be done like so
 ./run_all.sh ./common/datasets/minimal.json ./common/queries
 ```
 
+This will:
+1. build the benchmark driving code
+2. For each engine being tested:
+    1. Build the code necessary to use it
+    2. Build an index using the supplied documents, and output timing in milliseconds to `output/$engine/build_time.txt`.
+    3. Run all of the supplied queries a number of times, recording the time taken to run in `output/$engine/query_output.txt`.
+
 The output goes into the `output` subdirectory. 
 It contains one folder per engine tested.
+
+## TODO
+
+Supply a better representative training set for easy use.
+
+Support more engines.
+
+Output a more consumable summary format of any measurements made, to make comparison easier.
