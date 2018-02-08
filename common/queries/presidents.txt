@@ -1,4 +1,5 @@
 "donald trump"
+"trump Donald"
 "barack obama"
 "george bush"
 +george +bush

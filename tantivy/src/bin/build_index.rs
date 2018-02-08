@@ -7,11 +7,8 @@ extern crate serde_derive;
 extern crate serde_json;
 
 
-use tantivy::schema::Schema;
 use tantivy::schema::SchemaBuilder;
 use tantivy::schema::IntOptions;
-use tantivy::schema::TextOptions;
-use tantivy::schema::TextIndexingOptions;
 use tantivy::Index;
 
 use std::env;
@@ -19,6 +16,8 @@ use std::io::BufRead;
 use std::io::Result;
 use std::path::Path;
 use tantivy::schema::Document;
+use tantivy::schema::Cardinality;
+use tantivy::schema::{TEXT, STORED};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -35,9 +34,9 @@ struct InputDocument {
 fn main_inner(output_dir: &Path) -> Result<()> {
     let mut schema_builder = SchemaBuilder::default();
 
-    let id = schema_builder.add_u64_field("id", IntOptions::default().set_fast());
-    let title = schema_builder.add_text_field("title", TextOptions::default().set_indexing_options(TextIndexingOptions::TokenizedWithFreqAndPosition).set_stored());
-    let all = schema_builder.add_text_field("all", TextOptions::default().set_indexing_options(TextIndexingOptions::TokenizedWithFreqAndPosition));
+    let id = schema_builder.add_u64_field("id", IntOptions::default().set_fast(Cardinality::SingleValue));
+    let title = schema_builder.add_text_field("title", TEXT | STORED);
+    let all = schema_builder.add_text_field("all", TEXT);
 
     let schema = schema_builder.build();
 

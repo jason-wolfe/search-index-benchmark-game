@@ -3,6 +3,7 @@ extern crate tantivy;
 use tantivy::Index;
 use tantivy::query::QueryParser;
 use tantivy::collector::CountCollector;
+use tantivy::tokenizer::TokenizerManager;
 
 use std::env;
 use std::io::BufRead;
@@ -17,7 +18,7 @@ fn main() {
 fn main_inner(index_dir: &Path) -> Result<()> {
     let index = Index::open(index_dir).expect("failed to open index");
     let all_field = index.schema().get_field("all").expect("no all field?!");
-    let query_parser = QueryParser::new(index.schema(), vec![all_field]);
+    let query_parser = QueryParser::new(index.schema(), vec![all_field], TokenizerManager::default());
 
     let searcher = index.searcher();
 
