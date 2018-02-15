@@ -20,6 +20,15 @@ public class BuildIndex {
             try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
                 final Document document = new Document();
 
+                LongPoint idPoint = new LongPoint("id", 0L);
+                StoredField idField = new StoredField("id", 0L);
+                TextField titleField = new TextField("title", "", Field.Store.YES);
+                TextField allField = new TextField("all", "", Field.Store.NO);
+                document.add(idPoint);
+                document.add(idField);
+                document.add(titleField);
+                document.add(allField);
+
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
                     if (line.trim().isEmpty()) {
@@ -33,16 +42,12 @@ public class BuildIndex {
                     if (url.startsWith(urlPrefix)) {
                         try {
                             final long doc_id = Long.parseLong(url.substring(urlPrefix.length()));
+                            idPoint.setLongValue(doc_id);
+                            idField.setLongValue(doc_id);
                             final String title = parsed_doc.get("title").asString();
+                            titleField.setStringValue(title);
                             final String body = parsed_doc.get("body").asString();
-
-                            document.clear();
-
-                            document.add(new LongPoint("id", doc_id));
-                            document.add(new StoredField("id", doc_id));
-                            document.add(new TextField("title", title, Field.Store.YES));
-                            document.add(new TextField("all", title + "\n" + body, Field.Store.NO));
-
+                            allField.setStringValue(title + "\n" + body);
                             writer.addDocument(document);
                         } catch (NumberFormatException e) {
                             continue;
