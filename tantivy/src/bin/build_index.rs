@@ -17,7 +17,7 @@ use std::io::BufRead;
 use std::io::Result;
 use std::path::Path;
 use tantivy::schema::Cardinality;
-use tantivy::schema::TEXT;
+use tantivy::schema::{TEXT, STORED};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -35,7 +35,7 @@ fn main_inner(output_dir: &Path) -> Result<()> {
     let mut schema_builder = SchemaBuilder::default();
 
     let id_field = schema_builder.add_u64_field("id", IntOptions::default().set_fast(Cardinality::SingleValue));
-    let title_field = schema_builder.add_text_field("title", TEXT);
+    let title_field = schema_builder.add_text_field("title", TEXT | STORED);
     let all_field = schema_builder.add_text_field("all", TEXT);
 
     let schema = schema_builder.build();

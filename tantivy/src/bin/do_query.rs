@@ -2,7 +2,6 @@ extern crate tantivy;
 
 use tantivy::Index;
 use tantivy::query::QueryParser;
-use tantivy::collector::CountCollector;
 use tantivy::tokenizer::TokenizerManager;
 
 use std::env;
@@ -25,11 +24,8 @@ fn main_inner(index_dir: &Path) -> Result<()> {
     let stdin = std::io::stdin();
     for line in stdin.lock().lines() {
         let line = line?;
-
         let query = query_parser.parse_query(&line).expect("failed to parse query!");
-        let mut count_collector = CountCollector::default();
-        searcher.search(&*query, &mut count_collector).expect("failed to execute query");
-        println!("{}", count_collector.count());
+        println!("{}", query.count(&*searcher).expect("Search failed"));
     }
 
     Ok(())
