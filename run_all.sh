@@ -60,7 +60,7 @@ for INDEX_TYPE in lucene tantivy; do
     echo ${runtime} > ${OUTPUT}/build_time.txt
 
     echo Querying against ${INDEX_TYPE}
-    ${BASE}/benchmark/drive.sh $2 <${PIPE_FILE} 2>${OUTPUT}/query_output.txt | ${INDEX_TYPE}/query.sh ${INDEX_OUTPUT} >${PIPE_FILE}
+    ${BASE}/benchmark/drive.sh --queries $2 <${PIPE_FILE} 2>${OUTPUT}/query_output.txt | ${INDEX_TYPE}/query.sh ${INDEX_OUTPUT} >${PIPE_FILE}
 done
 
 rm ${PIPE_FILE}
