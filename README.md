@@ -45,13 +45,35 @@ This will:
     2. Build an index using the supplied documents, and output timing in seconds to `output/$engine/build_time.txt`.
     3. Run all of the supplied queries a number of times, recording the time taken to run in `output/$engine/query_output.txt`.
 
+The supplied queries can be a directory, which will be searched recursively for `.txt` files to run, 
+or it can be a `.txt` file itself, which will be used directly.
+
 The output goes into the `output` subdirectory. 
 It contains one folder per engine tested.
+
+## Running more
+
+Maybe you want to query again after you know the page cache is warmed up, to better represent your production workflow.
+Or maybe you're debugging something or trying to improve query performance, and would like to run some queries without building the indexes again.
+For these use-cases, the `query_all.sh` script allows you to run the given set of queries against the already built indexes.
+
+The argument format is the same as [`drive_queries.rs`](./benchmark/src/bin/drive_queries.rs), 
+which differs from `run_all.sh`, but allows more flexibility than `run_all.sh` currently offers.
+
+```bash
+./query_all.sh --queries ./common/queries/my_expensive_queries.txt -n 1
+```
+
+Important note: 
+This assumes that each of your projects is already compiled as you wish them to be.
+If this is not the case, run `preprocess_all.sh` and they will build per the standard process.
 
 ## TODO
 
 Supply a better representative training set for easy use.
 
 Support more engines.
+
+Improve `benchmark/run_all.sh` to allow passing more parameters to the `drive.sh` program.
 
 Output a more consumable summary format of any measurements made, to make comparison easier.
