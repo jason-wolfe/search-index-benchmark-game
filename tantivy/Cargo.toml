@@ -10,4 +10,4 @@ serde_json = "1.0"
 
 [dependencies.tantivy]
 git = "https://github.com/tantivy-search/tantivy.git"
-rev = "20bede946204bf6f5ea1cac7e3b70cf731e34413"
+rev = "42fd3fe5c7cab9c342baa6c6098b20e2a6f82183"
