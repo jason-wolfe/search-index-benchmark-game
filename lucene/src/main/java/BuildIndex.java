@@ -1,5 +1,7 @@
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonObject;
+import org.apache.lucene.analysis.CharArraySet;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -15,7 +17,8 @@ public class BuildIndex {
     public static void main(String[] args) throws IOException {
         final Path outputPath = Paths.get(args[0]);
 
-        final IndexWriterConfig config = new IndexWriterConfig();
+        final StandardAnalyzer standardAnalyzer = new StandardAnalyzer(CharArraySet.EMPTY_SET);
+        final IndexWriterConfig config = new IndexWriterConfig(standardAnalyzer);
         try (IndexWriter writer = new IndexWriter(FSDirectory.open(outputPath), config)) {
             try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
                 final Document document = new Document();

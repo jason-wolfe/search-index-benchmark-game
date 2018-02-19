@@ -1,3 +1,4 @@
+import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -19,8 +20,7 @@ public class DoQuery {
         try (IndexReader reader = DirectoryReader.open(FSDirectory.open(indexDir))) {
             final IndexSearcher searcher = new IndexSearcher(reader);
             try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
-                final QueryParser queryParser = new QueryParser("all", new StandardAnalyzer());
-
+                final QueryParser queryParser = new QueryParser("all", new StandardAnalyzer(CharArraySet.EMPTY_SET));
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
                     Query query = queryParser.parse(line);
