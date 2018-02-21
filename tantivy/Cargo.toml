@@ -7,7 +7,4 @@ authors = ["Jason Wolfe"]
 serde = "1.0"
 serde_derive = "1.0"
 serde_json = "1.0"
-
-[dependencies.tantivy]
-git = "https://github.com/tantivy-search/tantivy.git"
-rev = "da3d372e6ecd604f577994085b264a5512cadb8a"
+tantivy = "0.5"
