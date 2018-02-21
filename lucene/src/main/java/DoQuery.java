@@ -19,6 +19,7 @@ public class DoQuery {
         final Path indexDir = Paths.get(args[0]);
         try (IndexReader reader = DirectoryReader.open(FSDirectory.open(indexDir))) {
             final IndexSearcher searcher = new IndexSearcher(reader);
+            searcher.setQueryCache(null);
             try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))) {
                 final QueryParser queryParser = new QueryParser("all", new StandardAnalyzer(CharArraySet.EMPTY_SET));
                 String line;
